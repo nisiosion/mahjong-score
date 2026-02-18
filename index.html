@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麻雀精算</title>
+<style>
+body {
+  font-family: sans-serif;
+  padding: 15px;
+}
+.player {
+  margin-bottom: 15px;
+}
+input {
+  width: 100%;
+  font-size: 18px;
+  padding: 5px;
+}
+.result {
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 5px;
+}
+.total {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+}
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<h2>麻雀精算アプリ</h2>
+
+<div class="player">
+  A: <input id="A" placeholder="20+35-28">
+  <div class="result" id="A_result">0</div>
+</div>
+
+<div class="player">
+  B: <input id="B" placeholder="35-52+28">
+  <div class="result" id="B_result">0</div>
+</div>
+
+<div class="player">
+  C: <input id="C">
+  <div class="result" id="C_result">0</div>
+</div>
+
+<div class="player">
+  D: <input id="D">
+  <div class="result" id="D_result">0</div>
+</div>
+
+<button onclick="calculate()">計算</button>
+
+<div class="total" id="total">合計: 0</div>
+
+<script>
+function safeEval(expr) {
+  if (!expr) return 0;
+  if (!/^[0-9+\- ]+$/.test(expr)) return "入力エラー";
+  try {
+    return eval(expr);
+  } catch {
+    return "入力エラー";
+  }
+}
+
+function calculate() {
+  let ids = ["A","B","C","D"];
+  let sum = 0;
+
+  ids.forEach(id => {
+    let val = document.getElementById(id).value;
+    let result = safeEval(val);
+    document.getElementById(id+"_result").textContent = result;
+    if (typeof result === "number") sum += result;
+  });
+
+  document.getElementById("total").textContent = "合計: " + sum;
+}
+</script>
+
+</body>
+</html>
